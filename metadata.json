@@ -1,0 +1,6 @@
+{
+  "name": "Detailing Sikar · Ceramic & PPF Studio",
+  "description": "Premium automotive detailing studio in Sikar, Rajasthan featuring scroll-to-wash before/after wipe, paint inspection micro-metrology, 9H ceramic hydrophobic beading, live bay reservation, and CRM leads management.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
