@@ -5,9 +5,13 @@ import { Sparkles, Droplets, RotateCcw, Play, ArrowDown, ShieldCheck } from 'luc
 import { soundManager } from '../utils/audio';
 import { Magnetic } from './Magnetic';
 
-// Pixel-perfect identical twin images of the exact same vehicle in the exact same studio bay
-const DIRTY_CAR = '/src/assets/images/car_suv_dirty_exact_1793944391936.jpg';
-const CLEAN_CAR = '/src/assets/images/car_clean_gloss_ceramic_suv_1793943890545.jpg';
+// Direct ESM asset imports for Vite/Vercel production bundling
+import dirtyCarAsset from '../assets/images/car_suv_dirty_exact_1793944391936.jpg';
+import cleanCarAsset from '../assets/images/car_clean_gloss_ceramic_suv_1793943890545.jpg';
+
+// Public directory fallbacks for static deployments (Vercel, Netlify, Cloud Run)
+const DIRTY_CAR = dirtyCarAsset || '/images/car_dirty.jpg';
+const CLEAN_CAR = cleanCarAsset || '/images/car_clean.jpg';
 
 interface WashHeroProps {
   onOpenBooking: () => void;
@@ -138,6 +142,12 @@ export const WashHero: React.FC<WashHeroProps> = ({ onOpenBooking }) => {
             src={DIRTY_CAR}
             alt="Muddy off-road luxury vehicle before detailing"
             referrerPolicy="no-referrer"
+            onError={(e) => {
+              // Fallback to public folder path if bundled asset fails
+              if (e.currentTarget.src !== window.location.origin + '/images/car_dirty.jpg') {
+                e.currentTarget.src = '/images/car_dirty.jpg';
+              }
+            }}
             className="absolute inset-0 w-full h-full object-cover"
           />
 
@@ -152,6 +162,11 @@ export const WashHero: React.FC<WashHeroProps> = ({ onOpenBooking }) => {
               src={CLEAN_CAR}
               alt="Mirror gloss ceramic coated luxury vehicle after detailing"
               referrerPolicy="no-referrer"
+              onError={(e) => {
+                if (e.currentTarget.src !== window.location.origin + '/images/car_clean.jpg') {
+                  e.currentTarget.src = '/images/car_clean.jpg';
+                }
+              }}
               className="absolute inset-0 w-full h-full object-cover"
             />
 
@@ -245,7 +260,7 @@ export const WashHero: React.FC<WashHeroProps> = ({ onOpenBooking }) => {
               <span>Certified Gtechniq & XPEL Installers</span>
             </span>
             <span className="hidden md:inline text-neutral-600">·</span>
-            <span className="hidden md:inline">Climate Controlled Cleanroom Bay</span>
+            <span className="hidden md:inline">Detailing Sikar Cleanroom Bay</span>
           </div>
 
           <Magnetic strength={0.2}>

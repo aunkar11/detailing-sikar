@@ -2,10 +2,15 @@ import React, { useState, useRef } from 'react';
 import { Eye, Sparkles, Droplet } from 'lucide-react';
 import { soundManager } from '../utils/audio';
 
-// Pixel-perfect identical twin macro shots under the exact same detailing inspection ring light
-const SWIRL_IMG = '/src/assets/images/car_paint_swirl_macro_1793943891132.jpg';
-const CORRECTED_IMG = '/src/assets/images/car_paint_swirl_corrected_exact_1793944410426.jpg';
-const BEADING_IMG = '/src/assets/images/car_paint_ceramic_macro_1793943891793.jpg';
+// Direct ESM asset imports for Vite/Vercel production bundling
+import swirlAsset from '../assets/images/car_paint_swirl_macro_1793943891132.jpg';
+import correctedAsset from '../assets/images/car_paint_swirl_corrected_exact_1793944410426.jpg';
+import beadingAsset from '../assets/images/car_paint_ceramic_macro_1793943891793.jpg';
+
+// Public directory fallbacks for static deployments (Vercel, Netlify, Cloud Run)
+const SWIRL_IMG = swirlAsset || '/images/paint_swirl.jpg';
+const CORRECTED_IMG = correctedAsset || '/images/paint_corrected.jpg';
+const BEADING_IMG = beadingAsset || '/images/paint_beading.jpg';
 
 export const PaintInspection: React.FC = () => {
   // Swirl Inspection Slider
@@ -121,6 +126,11 @@ export const PaintInspection: React.FC = () => {
             src={SWIRL_IMG}
             alt="Paint with severe swirl marks under detailing inspection light"
             referrerPolicy="no-referrer"
+            onError={(e) => {
+              if (e.currentTarget.src !== window.location.origin + '/images/paint_swirl.jpg') {
+                e.currentTarget.src = '/images/paint_swirl.jpg';
+              }
+            }}
             className="absolute inset-0 w-full h-full object-cover"
           />
 
@@ -135,6 +145,11 @@ export const PaintInspection: React.FC = () => {
               src={CORRECTED_IMG}
               alt="Immaculate paint with deep reflection after ceramic coating"
               referrerPolicy="no-referrer"
+              onError={(e) => {
+                if (e.currentTarget.src !== window.location.origin + '/images/paint_corrected.jpg') {
+                  e.currentTarget.src = '/images/paint_corrected.jpg';
+                }
+              }}
               className="absolute inset-0 w-full h-full object-cover"
             />
           </div>
@@ -191,6 +206,11 @@ export const PaintInspection: React.FC = () => {
               src={BEADING_IMG}
               alt="Hydrophobic water beading on car hood"
               referrerPolicy="no-referrer"
+              onError={(e) => {
+                if (e.currentTarget.src !== window.location.origin + '/images/paint_beading.jpg') {
+                  e.currentTarget.src = '/images/paint_beading.jpg';
+                }
+              }}
               className="w-full h-full object-cover filter brightness-90"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none" />
